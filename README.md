@@ -138,7 +138,7 @@ See [STRATEGY.md](STRATEGY.md) for the full strategy engine documentation.
 
 See [TOKEN_PLAN.md](TOKEN_PLAN.md) for the full token plan.
 
-**TL;DR**: $GLAD launches on nad.fun, gives fee discounts, governance votes, and revenue share from the 2.5% arena fees. 40% fair launch, 30% arena rewards, deflationary via buyback & burn.
+**TL;DR**: $GLAD is LIVE on [nad.fun](https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777)! Fee discounts, governance votes, and revenue share from the 2.5% arena fees. 40% fair launch, 30% arena rewards, deflationary via buyback & burn.
 
 ---
 
@@ -218,21 +218,33 @@ cast call $REGISTRY "leaderboard(uint256)" 10 \
 - **Framework**: Foundry (forge, cast, anvil)
 - **Dependencies**: OpenZeppelin Contracts
 - **Strategy**: Custom AI engine (Hunt & Target, Kelly Criterion, meta-game reasoning)
-- **Token Launch**: nad.fun (planned)
+- **Token**: [$GLAD on nad.fun](https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777) — `0xFB1e91a01a1357B438cCd6F915F464bf8e977777`
 
 ---
 
-## Deployed Contracts (Monad Testnet)
+## $GLAD Token
 
-> Addresses will be populated after deployment
+🪙 **[View on nad.fun](https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777)**
+
+| Detail | Value |
+|--------|-------|
+| Name | MonadGladiator |
+| Symbol | GLAD |
+| Address | [`0xFB1e91a01a1357B438cCd6F915F464bf8e977777`](https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777) |
+| Chain | Monad Mainnet (143) |
+| Platform | nad.fun |
+
+---
+
+## Deployed Contracts (Monad Mainnet)
 
 | Contract | Address |
 |----------|---------|
-| GameRegistry | [`0x2A1dAdFe8f95987bC7225D4dCFAD2FB530A1Cc45`](https://monad-testnet.socialscan.io/address/0x2A1dAdFe8f95987bC7225D4dCFAD2FB530A1Cc45) |
-| BattleshipArena | [`0x7Aef76Fe7e58aAF799e6bFB4C8475652648284eC`](https://monad-testnet.socialscan.io/address/0x7Aef76Fe7e58aAF799e6bFB4C8475652648284eC) |
-| RPSArena | [`0x14A0559A19a724919D7CfEFF7BAFc42740d631F0`](https://monad-testnet.socialscan.io/address/0x14A0559A19a724919D7CfEFF7BAFc42740d631F0) |
-| CoinFlipArena | [`0xA2175f4774829dE597C1F5Ba6d52aA4700eC0Cd4`](https://monad-testnet.socialscan.io/address/0xA2175f4774829dE597C1F5Ba6d52aA4700eC0Cd4) |
-| TournamentManager | [`0x3Acef434e2cdaD7B69BD6DFE011A4ba23A1bd816`](https://monad-testnet.socialscan.io/address/0x3Acef434e2cdaD7B69BD6DFE011A4ba23A1bd816) |
+| GameRegistry | [`0x90217E14Cf6652142E15FEc5A990ce5dc91516f5`](https://monadexplorer.com/address/0x90217E14Cf6652142E15FEc5A990ce5dc91516f5) |
+| RPSArena | [`0x97f5C4A90f182d15bdD70d656fcea575Db736571`](https://monadexplorer.com/address/0x97f5C4A90f182d15bdD70d656fcea575Db736571) |
+| BattleshipArena | [`0xdC90E2E5362ffEf87A7c96734824966df72Aa495`](https://monadexplorer.com/address/0xdC90E2E5362ffEf87A7c96734824966df72Aa495) |
+| CoinFlipArena | [`0x3816C958cD6BfA65f538150922E26AEE9287A825`](https://monadexplorer.com/address/0x3816C958cD6BfA65f538150922E26AEE9287A825) |
+| TournamentManager | [`0x25928a19A69D2D340D25537F11aB23e6d0Cb32A1`](https://monadexplorer.com/address/0x25928a19A69D2D340D25537F11aB23e6d0Cb32A1) |
 
 Explorer: https://monad-testnet.socialscan.io
 
