@@ -396,13 +396,19 @@ async function connectWallet() {
       const gladBal = await gladToken.balanceOf(userAddr);
       document.getElementById("s-glad").textContent = parseFloat(ethers.formatEther(gladBal)).toFixed(2) + " GLAD";
     } catch(e) { document.getElementById("s-glad").textContent = "0 GLAD"; }
-    document.getElementById("connectBtn").innerHTML = "🦊 Connected";
     document.getElementById("connectBtn").style.display = "none";
     document.getElementById("walletInfo").style.display = "block";
-    document.getElementById("walletInfo").textContent = "🦊 " + userAddr.slice(0,6) + "..." + userAddr.slice(-4);
+    document.getElementById("walletInfo").innerHTML = "🦊 " + userAddr.slice(0,6) + "..." + userAddr.slice(-4) + ' <button class="btn-sm btn-danger" onclick="disconnectWallet()" style="margin-left:12px;font-size:11px">Disconnect</button>';
     loadDashboard();
     initBSGrid();
   } catch(e) { alert("Connection failed: " + e.message); }
+}
+
+function disconnectWallet() {
+  provider = null; signer = null; userAddr = null;
+  registry = null; rpsContract = null; bsContract = null; cfContract = null; gladToken = null;
+  document.getElementById("connectBtn").style.display = "";
+  document.getElementById("walletInfo").style.display = "none";
 }
 
 // ═══════════════════════ NAV ═══════════════════════
