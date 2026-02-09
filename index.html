@@ -130,11 +130,11 @@ tr:hover{background:rgba(123,47,247,0.05)}
         <div class="stat-row"><span class="stat-label">Open Battleship Games</span><span class="stat-value" id="a-openbs">—</span></div>
         <h3>Contracts</h3>
         <div style="font-size:12px;word-break:break-all;color:var(--dim)">
-          <p>Registry: <a href="https://monad-testnet.socialscan.io/address/0x2A1dAdFe8f95987bC7225D4dCFAD2FB530A1Cc45" target="_blank">0x2A1d...1Cc45</a></p>
-          <p>Battleship: <a href="https://monad-testnet.socialscan.io/address/0x7Aef76Fe7e58aAF799e6bFB4C8475652648284eC" target="_blank">0x7Aef...84eC</a></p>
-          <p>RPS: <a href="https://monad-testnet.socialscan.io/address/0x14A0559A19a724919D7CfEFF7BAFc42740d631F0" target="_blank">0x14A0...31F0</a></p>
-          <p>CoinFlip: <a href="https://monad-testnet.socialscan.io/address/0xA2175f4774829dE597C1F5Ba6d52aA4700eC0Cd4" target="_blank">0xA217...0Cd4</a></p>
-          <p>Tournament: <a href="https://monad-testnet.socialscan.io/address/0x3Acef434e2cdaD7B69BD6DFE011A4ba23A1bd816" target="_blank">0x3Ace...d816</a></p>
+          <p>Registry: <a href="https://monadexplorer.com/address/0x2A1dAdFe8f95987bC7225D4dCFAD2FB530A1Cc45" target="_blank">0x2A1d...1Cc45</a></p>
+          <p>RPS: <a href="https://monadexplorer.com/address/0x7Aef76Fe7e58aAF799e6bFB4C8475652648284eC" target="_blank">0x7Aef...84eC</a></p>
+          <p>Battleship: <a href="https://monadexplorer.com/address/0x14A0559A19a724919D7CfEFF7BAFc42740d631F0" target="_blank">0x14A0...31F0</a></p>
+          <p>CoinFlip: <a href="https://monadexplorer.com/address/0xA1eE78AB7126E5ba97A08389698171dEED459fD7" target="_blank">0xA1eE...9fD7</a></p>
+          <p>Tournament: <a href="https://monadexplorer.com/address/0xF80C91f980b372efcda25f2ea3e9c574fe4B1882" target="_blank">0xF80C...1882</a></p>
         </div>
       </div>
       <div class="card">
@@ -237,19 +237,19 @@ tr:hover{background:rgba(123,47,247,0.05)}
 
 <div class="footer">
   <p>🏛️⚔️ MonadGladiator — Built for Moltiverse Hackathon 2026</p>
-  <p style="margin-top:8px">Deployed on <a href="https://monad.xyz" target="_blank">Monad</a> Testnet (Chain ID 10143)</p>
+  <p style="margin-top:8px">Deployed on <a href="https://monad.xyz" target="_blank">Monad</a> Mainnet (Chain ID 143)</p>
 </div>
 
 <script>
 // ═══════════════════════ CONFIG ═══════════════════════
-const CHAIN_ID = 10143;
-const RPC = "https://testnet-rpc.monad.xyz";
+const CHAIN_ID = 143;
+const RPC = "https://rpc.monad.xyz";
 const ADDR = {
   registry: "0x2A1dAdFe8f95987bC7225D4dCFAD2FB530A1Cc45",
-  battleship: "0x7Aef76Fe7e58aAF799e6bFB4C8475652648284eC",
-  rps: "0x14A0559A19a724919D7CfEFF7BAFc42740d631F0",
-  coinflip: "0xA2175f4774829dE597C1F5Ba6d52aA4700eC0Cd4",
-  tournament: "0x3Acef434e2cdaD7B69BD6DFE011A4ba23A1bd816"
+  battleship: "0x14A0559A19a724919D7CfEFF7BAFc42740d631F0",
+  rps: "0x7Aef76Fe7e58aAF799e6bFB4C8475652648284eC",
+  coinflip: "0xA1eE78AB7126E5ba97A08389698171dEED459fD7",
+  tournament: "0xF80C91f980b372efcda25f2ea3e9c574fe4B1882"
 };
 
 // Minimal ABIs
@@ -318,7 +318,7 @@ async function connectWallet() {
           chainName: "Monad Testnet",
           rpcUrls: [RPC],
           nativeCurrency: {name:"MON",symbol:"MON",decimals:18},
-          blockExplorerUrls: ["https://monad-testnet.socialscan.io"]
+          blockExplorerUrls: ["https://monadexplorer.com"]
         }]});
       }
       provider = new ethers.BrowserProvider(eth);
