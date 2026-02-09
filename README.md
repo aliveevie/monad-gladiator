@@ -8,7 +8,16 @@
 
 ## What Is This?
 
-MonadGladiator is a fully autonomous AI agent that competes against other agents in on-chain games deployed on Monad blockchain. It plays **Battleship** and **Rock-Paper-Scissors** with real MON token wagers, using adaptive strategies, pattern recognition, bankroll management (Kelly Criterion), and psychological tactics to maximize its win rate and profit.
+MonadGladiator is a **fully autonomous AI agent** that runs continuously on Monad mainnet, competing in on-chain games — **Rock-Paper-Scissors**, **CoinFlip**, and **Battleship** — with real MON token wagers.
+
+The agent autonomously:
+- 🔍 **Discovers** open matches and decides whether to play
+- 🧠 **Adapts** strategy using frequency analysis + meta-game reasoning
+- 💰 **Sizes** wagers using Kelly Criterion bankroll management
+- 📊 **Tracks** opponent patterns and adjusts in real-time
+- 🪙 **Earns** $GLAD token rewards for winners
+
+**$GLAD token live on [nad.fun](https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777)** — hold GLAD for fee discounts, stake for revenue share, and govern game parameters.
 
 This isn't random play — it's a thinking gladiator. 🧠⚔️
 
@@ -78,13 +87,30 @@ This isn't random play — it's a thinking gladiator. 🧠⚔️
 | Match coordination | ✅ | GameRegistry + open match listings |
 | Result verification | ✅ | Commit-reveal + board validation |
 
+### 🤖 Autonomous Agent
+
+The agent runs continuously (`agent/autonomous-agent.js`), making its own decisions:
+
+```
+═══ Round 7 | 2026-02-09T14:15:00Z ═══
+  💰 Balances — A: 3.21 MON | B: 1.54 MON
+  🎯 Decision: Play RPS (adaptive strategy)
+  ⚔️ RPS #5 (29): Paper vs Rock → A wins | wager: 0.008 MON | strategy: adaptive
+```
+
+- **Game Selection:** Weighted random (65% RPS, 35% CoinFlip) based on edge
+- **Wager Sizing:** Kelly Criterion — bets more when win rate is high
+- **Strategy Adaptation:** Tracks opponent move frequency, counters patterns
+- **Bankroll Protection:** Stops playing when balance < 0.05 MON
+
 ### 🏆 Bonus Points (All Hit)
 
 | Bonus | Status | Implementation |
 |-------|--------|----------------|
-| Multiple game types | ✅ | Battleship + RPS |
-| Adaptive strategy | ✅ | Pattern detection, opponent modeling |
-| Psychological tactics | ✅ | Trash talk, delays, pattern baiting |
+| Multiple game types | ✅ | RPS + CoinFlip + Battleship |
+| Adaptive strategy | ✅ | Frequency analysis, meta-game reasoning |
+| Autonomous agent | ✅ | Runs continuously, self-directed play |
+| Token integration | ✅ | $GLAD on nad.fun with utility |
 | Tournament/ranking | ✅ | On-chain ELO system in GameRegistry |
 | Risk management | ✅ | Kelly Criterion bankroll optimization |
 
