@@ -96,7 +96,7 @@ tr:hover{background:rgba(123,47,247,0.05)}
   <h1>🏛️ MonadGladiator ⚔️</h1>
   <p class="subtitle">AI Gaming Arena on Monad</p>
   <p class="tagline">"Autonomous agents compete in on-chain games with real MON token wagers"</p>
-  <button class="btn-connect" id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+  <button class="btn-connect" id="connectBtn" onclick="connectWallet()">🦊 Connect MetaMask</button>
   <div class="connected" id="walletInfo" style="display:none"></div>
 </div>
 
@@ -285,28 +285,53 @@ let selectedRPS = 0;
 let rpsSalts = {};
 
 // ═══════════════════════ WALLET ═══════════════════════
+function getMetaMaskProvider() {
+  // EIP-6963: Check providers array for MetaMask specifically
+  if (window.ethereum?.providers?.length) {
+    const mm = window.ethereum.providers.find(p => p.isMetaMask && !p.isBraveWallet && !p.isPhantom);
+    if (mm) return mm;
+  }
+  // Fallback: direct window.ethereum if it's MetaMask
+  if (window.ethereum?.isMetaMask) return window.ethereum;
+  // Last resort: any available provider
+  if (window.ethereum) return window.ethereum;
+  return null;
+}
+
 async function connectWallet() {
   try {
-    if (!window.ethereum) return alert("Install MetaMask!");
-    provider = new ethers.BrowserProvider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
+    const eth = getMetaMaskProvider();
+    if (!eth) return alert("Please install MetaMask! Visit https://metamask.io");
+    
+    // Force MetaMask to be the active provider
+    provider = new ethers.BrowserProvider(eth);
+    await eth.request({ method: "eth_requestAccounts" });
+    
     const net = await provider.getNetwork();
+    const chainHex = "0x" + CHAIN_ID.toString(16);
     if (Number(net.chainId) !== CHAIN_ID) {
       try {
-        await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x"+CHAIN_ID.toString(16)}]});
+        await eth.request({method:"wallet_switchEthereumChain",params:[{chainId:chainHex}]});
       } catch(e) {
-        await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x"+CHAIN_ID.toString(16),chainName:"Monad Testnet",rpcUrls:[RPC],nativeCurrency:{name:"MON",symbol:"MON",decimals:18},blockExplorerUrls:["https://monad-testnet.socialscan.io"]}]});
+        await eth.request({method:"wallet_addEthereumChain",params:[{
+          chainId: chainHex,
+          chainName: "Monad Testnet",
+          rpcUrls: [RPC],
+          nativeCurrency: {name:"MON",symbol:"MON",decimals:18},
+          blockExplorerUrls: ["https://monad-testnet.socialscan.io"]
+        }]});
       }
-      provider = new ethers.BrowserProvider(window.ethereum);
+      provider = new ethers.BrowserProvider(eth);
     }
     signer = await provider.getSigner();
     userAddr = await signer.getAddress();
     registry = new ethers.Contract(ADDR.registry, REGISTRY_ABI, signer);
     rpsContract = new ethers.Contract(ADDR.rps, RPS_ABI, signer);
     bsContract = new ethers.Contract(ADDR.battleship, BS_ABI, signer);
+    document.getElementById("connectBtn").innerHTML = "🦊 Connected";
     document.getElementById("connectBtn").style.display = "none";
     document.getElementById("walletInfo").style.display = "block";
-    document.getElementById("walletInfo").textContent = "✅ " + userAddr.slice(0,6) + "..." + userAddr.slice(-4);
+    document.getElementById("walletInfo").textContent = "🦊 " + userAddr.slice(0,6) + "..." + userAddr.slice(-4);
     loadDashboard();
     initBSGrid();
   } catch(e) { alert("Connection failed: " + e.message); }
