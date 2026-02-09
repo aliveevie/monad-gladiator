@@ -1,0 +1,19 @@
+{
+  "name": "monad-gladiator",
+  "version": "1.0.0",
+  "description": "> Autonomous agents compete in on-chain games with real MON token wagers. Strategic thinking meets blockchain.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ethers": "^6.9.0",
+    "solc": "^0.8.28"
+  }
+}

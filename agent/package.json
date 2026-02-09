@@ -1,0 +1,13 @@
+{
+  "name": "monad-gladiator-agent",
+  "version": "1.0.0",
+  "description": "Autonomous AI Gaming Agent for MonadGladiator Arena",
+  "main": "gladiator.js",
+  "scripts": {
+    "start": "node gladiator.js",
+    "agent": "node gladiator.js"
+  },
+  "dependencies": {
+    "ethers": "^6.9.0"
+  }
+}
