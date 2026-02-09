@@ -240,9 +240,9 @@ contract TournamentManager {
         secondPlace = (finalA.player == champion) ? finalB.player : finalA.player;
 
         feeBalance += fee;
-        payable(champion).transfer(firstPrize);
+        {(bool _s, ) = payable(champion).call{value: firstPrize}(""); require(_s);}
         if (secondPlace != address(0)) {
-            payable(secondPlace).transfer(secondPrize);
+            {(bool _s, ) = payable(secondPlace).call{value: secondPrize}(""); require(_s);}
         }
 
         emit TournamentCompleted(tournamentId, champion, firstPrize, secondPrize);
@@ -259,7 +259,7 @@ contract TournamentManager {
         // Refund all registered players
         address[] storage players = registeredPlayers[tournamentId];
         for (uint256 i = 0; i < players.length; i++) {
-            payable(players[i]).transfer(t.entryFee);
+            {(bool _s, ) = payable(players[i]).call{value: t.entryFee}(""); require(_s);}
         }
 
         emit TournamentCancelled(tournamentId);
@@ -269,7 +269,7 @@ contract TournamentManager {
     function withdrawFees() external onlyOwner {
         uint256 amount = feeBalance;
         feeBalance = 0;
-        payable(owner).transfer(amount);
+        {(bool _s, ) = payable(owner).call{value: amount}(""); require(_s);}
     }
 
     // ──────────────────── Views ───────────────────

@@ -187,7 +187,7 @@ contract RPSArena {
         uint256 payout = pot - fee;
         feeBalance += fee;
 
-        payable(winner).transfer(payout);
+        {(bool _s, ) = payable(winner).call{value: payout}(""); require(_s);}
 
         GameRegistry.Result result = winner == m.playerA
             ? GameRegistry.Result.PlayerAWin
@@ -204,8 +204,8 @@ contract RPSArena {
         m.phase = Phase.Finished;
 
         // Return wagers
-        payable(m.playerA).transfer(m.wager);
-        payable(m.playerB).transfer(m.wager);
+        {(bool _s, ) = payable(m.playerA).call{value: m.wager}(""); require(_s);}
+        {(bool _s, ) = payable(m.playerB).call{value: m.wager}(""); require(_s);}
 
         registry.recordMatch(GameRegistry.GameType.RPS, m.playerA, m.playerB, m.wager, GameRegistry.Result.Draw);
 
@@ -248,7 +248,7 @@ contract RPSArena {
         require(msg.sender == m.playerA, "not creator");
         m.settled = true;
         m.phase = Phase.Finished;
-        payable(m.playerA).transfer(m.wager);
+        {(bool _s, ) = payable(m.playerA).call{value: m.wager}(""); require(_s);}
         _removeOpenMatch(matchId);
     }
 
@@ -256,7 +256,7 @@ contract RPSArena {
     function withdrawFees() external onlyOwner {
         uint256 amount = feeBalance;
         feeBalance = 0;
-        payable(owner).transfer(amount);
+        {(bool _s, ) = payable(owner).call{value: amount}(""); require(_s);}
     }
 
     // ──────────────────── Views ───────────────────

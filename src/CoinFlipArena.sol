@@ -140,7 +140,7 @@ contract CoinFlipArena {
         uint256 payout = pot - fee;
         feeBalance += fee;
 
-        payable(winner).transfer(payout);
+        (bool sent, ) = payable(winner).call{value: payout}(""); require(sent, "payout failed");
 
         // Record in registry
         GameRegistry.Result result = winner == f.playerA
@@ -177,7 +177,7 @@ contract CoinFlipArena {
         uint256 payout = pot - fee;
         feeBalance += fee;
 
-        payable(winner).transfer(payout);
+        (bool sent, ) = payable(winner).call{value: payout}(""); require(sent, "payout failed");
 
         GameRegistry.Result result = winner == f.playerA
             ? GameRegistry.Result.PlayerAWin
@@ -194,7 +194,7 @@ contract CoinFlipArena {
         require(msg.sender == f.playerA, "not creator");
         f.settled = true;
         f.phase = Phase.Finished;
-        payable(f.playerA).transfer(f.wager);
+        {(bool _s, ) = payable(f.playerA).call{value: f.wager}(""); require(_s);}
         _removeOpenFlip(flipId);
     }
 
@@ -202,7 +202,7 @@ contract CoinFlipArena {
     function withdrawFees() external onlyOwner {
         uint256 amount = feeBalance;
         feeBalance = 0;
-        payable(owner).transfer(amount);
+        {(bool _s, ) = payable(owner).call{value: amount}(""); require(_s);}
     }
 
     // ──────────────────── Views ───────────────────

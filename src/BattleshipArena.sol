@@ -248,7 +248,7 @@ contract BattleshipArena {
         uint256 payout = pot - fee;
         feeBalance += fee;
 
-        payable(winner).transfer(payout);
+        {(bool _s, ) = payable(winner).call{value: payout}(""); require(_s);}
 
         GameRegistry.Result result = winner == g.playerA
             ? GameRegistry.Result.PlayerAWin
@@ -266,7 +266,7 @@ contract BattleshipArena {
         require(msg.sender == g.playerA, "not creator");
         g.settled = true;
         g.phase = Phase.Finished;
-        payable(g.playerA).transfer(g.wager);
+        {(bool _s, ) = payable(g.playerA).call{value: g.wager}(""); require(_s);}
         _removeOpenGame(gameId);
     }
 
@@ -274,7 +274,7 @@ contract BattleshipArena {
     function withdrawFees() external onlyOwner {
         uint256 amount = feeBalance;
         feeBalance = 0;
-        payable(owner).transfer(amount);
+        {(bool _s, ) = payable(owner).call{value: amount}(""); require(_s);}
     }
 
     // ──────────────────── Views ───────────────────
