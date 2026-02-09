@@ -1,0 +1,127 @@
+[
+  {
+    "type": "RPS",
+    "matchId": "25",
+    "moveA": "Scissors",
+    "moveB": "Scissors",
+    "result": "Draw",
+    "wager": 0.005,
+    "strategy": "random",
+    "time": "2026-02-09T14:10:15.299Z"
+  },
+  {
+    "type": "CoinFlip",
+    "flipId": "14",
+    "result": "resolved",
+    "wager": 0.005,
+    "time": "2026-02-09T14:11:02.353Z"
+  },
+  {
+    "type": "RPS",
+    "matchId": "26",
+    "moveA": "Paper",
+    "moveB": "Rock",
+    "result": "A wins",
+    "wager": 0.005,
+    "strategy": "random",
+    "time": "2026-02-09T14:11:44.010Z"
+  },
+  {
+    "type": "RPS",
+    "matchId": "27",
+    "moveA": "Rock",
+    "moveB": "Scissors",
+    "result": "A wins",
+    "wager": 0.005,
+    "strategy": "adaptive",
+    "time": "2026-02-09T14:12:25.839Z"
+  },
+  {
+    "type": "RPS",
+    "matchId": "28",
+    "moveA": "Rock",
+    "moveB": "Paper",
+    "result": "B wins",
+    "wager": 0.02,
+    "strategy": "adaptive",
+    "time": "2026-02-09T14:13:03.143Z"
+  },
+  {
+    "type": "RPS",
+    "matchId": "29",
+    "moveA": "Rock",
+    "moveB": "Scissors",
+    "result": "A wins",
+    "wager": 0.005,
+    "strategy": "adaptive",
+    "time": "2026-02-09T14:13:44.438Z"
+  },
+  {
+    "type": "RPS",
+    "matchId": "30",
+    "moveA": "Rock",
+    "moveB": "Scissors",
+    "result": "A wins",
+    "wager": 0.02,
+    "strategy": "adaptive",
+    "time": "2026-02-09T14:14:26.145Z"
+  },
+  {
+    "type": "CoinFlip",
+    "flipId": "15",
+    "result": "resolved",
+    "wager": 0.005,
+    "time": "2026-02-09T14:14:56.922Z"
+  },
+  {
+    "type": "RPS",
+    "matchId": "31",
+    "moveA": "Rock",
+    "moveB": "Paper",
+    "result": "B wins",
+    "wager": 0.02,
+    "strategy": "adaptive",
+    "time": "2026-02-09T14:15:37.959Z"
+  },
+  {
+    "type": "CoinFlip",
+    "flipId": "16",
+    "result": "resolved",
+    "wager": 0.005,
+    "time": "2026-02-09T14:16:08.257Z"
+  },
+  {
+    "type": "RPS",
+    "matchId": "32",
+    "moveA": "Paper",
+    "moveB": "Paper",
+    "result": "Draw",
+    "wager": 0.02,
+    "strategy": "adaptive",
+    "time": "2026-02-09T14:16:49.823Z"
+  },
+  {
+    "type": "CoinFlip",
+    "flipId": "17",
+    "result": "resolved",
+    "wager": 0.005,
+    "time": "2026-02-09T14:17:20.583Z"
+  },
+  {
+    "type": "RPS",
+    "matchId": "33",
+    "moveA": "Paper",
+    "moveB": "Rock",
+    "result": "A wins",
+    "wager": 0.005,
+    "strategy": "adaptive",
+    "time": "2026-02-09T14:18:02.288Z"
+  },
+  {
+    "type": "CoinFlip",
+    "flipId": "18",
+    "result": "resolved",
+    "wager": 0.005,
+    "time": "2026-02-09T14:18:33.041Z"
+  }
+]

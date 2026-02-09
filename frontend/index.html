@@ -449,7 +449,19 @@ function selectRPS(choice, el) {
   selectedRPS = choice;
 }
 
+async function checkGLAD(statusId) {
+  try {
+    const bal = await gladToken.balanceOf(userAddr);
+    if (bal === 0n) {
+      setStatus(statusId, 'error', '🪙 You need $GLAD tokens to play! <a href="https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777" target="_blank" style="color:#c9a227">Buy $GLAD on nad.fun →</a>');
+      return false;
+    }
+    return true;
+  } catch(e) { return true; } // If token check fails, allow play
+}
+
 async function createRPSMatch() {
+  if (!(await checkGLAD('rps-create-status'))) return;
   const wager = document.getElementById('rps-wager').value || "0.05";
   setStatus('rps-create-status','info','Creating match...');
   try {
@@ -645,6 +657,7 @@ async function loadHistory() {
 
 // ═══════════════════════ COINFLIP ═══════════════════════
 async function createCoinFlip() {
+  if (!(await checkGLAD('cf-create-status'))) return;
   try {
     const wager = document.getElementById("cf-wager").value || "0.01";
     setStatus("cf-create-status", "info", "Generating secret & creating flip...");
