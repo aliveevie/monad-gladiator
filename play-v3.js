@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const { ethers } = require('ethers');
-const solc = require('solc');
 const fs = require('fs');
 const path = require('path');
 
@@ -14,29 +13,16 @@ const provider = new ethers.JsonRpcProvider(RPC);
 const walletA = new ethers.Wallet(PK_A, provider);
 const walletB = new ethers.Wallet(PK_B, provider);
 
-let compiled = {};
-function compile(name) {
-  if (compiled[name]) return compiled[name];
-  const sources = {};
-  for (const f of fs.readdirSync(path.join(__dirname, 'src'))) {
-    if (f.endsWith('.sol')) sources[f] = { content: fs.readFileSync(path.join(__dirname, 'src', f), 'utf8') };
-  }
-  const input = { language: 'Solidity', sources,
-    settings: { viaIR: true, optimizer: { enabled: true, runs: 200 }, evmVersion: 'paris',
-      outputSelection: { '*': { '*': ['abi'] } } } };
-  const out = JSON.parse(solc.compile(JSON.stringify(input)));
-  for (const file of Object.keys(out.contracts)) {
-    if (out.contracts[file][name]) { compiled[name] = out.contracts[file][name].abi; return compiled[name]; }
-  }
-}
+// Load Foundry-compiled ABIs
+const rpsAbi = JSON.parse(fs.readFileSync(path.join(__dirname, 'out/RPSArena.sol/RPSArena.json'))).abi;
+const cfAbi = JSON.parse(fs.readFileSync(path.join(__dirname, 'out/CoinFlipArena.sol/CoinFlipArena.json'))).abi;
 
 const moveNames = ['', 'Rock', 'Paper', 'Scissors'];
 let stats = { rps: 0, coinflip: 0, errors: 0, aWins: 0, bWins: 0, draws: 0 };
 
 async function playRPS(num) {
-  const abi = compile('RPSArena');
-  const rpsA = new ethers.Contract(RPS, abi, walletA);
-  const rpsB = new ethers.Contract(RPS, abi, walletB);
+  const rpsA = new ethers.Contract(RPS, rpsAbi, walletA);
+  const rpsB = new ethers.Contract(RPS, rpsAbi, walletB);
   const wager = ethers.parseEther('0.01');
   const moveA = Math.floor(Math.random() * 3) + 1;
   const moveB = Math.floor(Math.random() * 3) + 1;
@@ -61,14 +47,13 @@ async function playRPS(num) {
   else if (result === 'B wins') stats.bWins++;
   else stats.draws++;
   stats.rps++;
-  console.log(`  RPS #${num}: ${moveNames[moveA]} vs ${moveNames[moveB]} → ${result} (match ${matchId})`);
+  console.log(`  ✅ RPS #${stats.rps}: ${moveNames[moveA]} vs ${moveNames[moveB]} → ${result} (match ${matchId})`);
 }
 
 async function playCoinFlip(num) {
-  const abi = compile('CoinFlipArena');
-  const cfA = new ethers.Contract(CF, abi, walletA);
-  const cfB = new ethers.Contract(CF, abi, walletB);
-  const wager = ethers.parseEther('0.01');
+  const cfA = new ethers.Contract(CF, cfAbi, walletA);
+  const cfB = new ethers.Contract(CF, cfAbi, walletB);
+  const wager = ethers.parseEther('0.005');
   const secretA = ethers.randomBytes(32);
   const secretB = ethers.randomBytes(32);
   const commitA = ethers.keccak256(secretA);
@@ -80,16 +65,17 @@ async function playCoinFlip(num) {
   for (const log of r1.logs) { if (log.topics.length > 1) { flipId = BigInt(log.topics[1]); break; } }
 
   await (await cfB.joinFlip(flipId, commitB, { value: wager, gasLimit: 500000 })).wait();
-  await (await cfA.revealSecret(flipId, ethers.hexlify(secretA), { gasLimit: 500000 })).wait();
-  await (await cfB.revealSecret(flipId, ethers.hexlify(secretB), { gasLimit: 500000 })).wait();
+  await (await cfA.revealSecret(flipId, secretA, { gasLimit: 800000 })).wait();
+  await new Promise(r => setTimeout(r, 2000));
+  await (await cfB.revealSecret(flipId, secretB, { gasLimit: 800000 })).wait();
 
   stats.coinflip++;
-  console.log(`  CoinFlip #${num}: resolved ✅ (flip ${flipId})`);
+  console.log(`  ✅ CoinFlip #${stats.coinflip}: resolved (flip ${flipId})`);
 }
 
 async function main() {
   console.log('╔════════════════════════════════════════╗');
-  console.log('║  MonadGladiator — MAINNET Matches      ║');
+  console.log('║  MonadGladiator — MAINNET v2 Matches   ║');
   console.log('╚════════════════════════════════════════╝');
   
   const balA = await provider.getBalance(walletA.address);
@@ -98,13 +84,10 @@ async function main() {
 
   for (let i = 1; i <= 15; i++) {
     try {
-      if (i % 3 === 0) {
-        await playCoinFlip(Math.ceil(i/3));
-      } else {
-        await playRPS(i);
-      }
+      if (i % 3 === 0) await playCoinFlip(i);
+      else await playRPS(i);
     } catch(e) {
-      console.log(`  Match ${i} error: ${e.message.slice(0, 100)}`);
+      console.log(`  ❌ Match ${i} error: ${e.message.slice(0, 100)}`);
       stats.errors++;
       if (e.message.includes('insufficient')) { console.log('  ⚠️ Out of funds'); break; }
     }
@@ -113,7 +96,7 @@ async function main() {
   const balA2 = await provider.getBalance(walletA.address);
   const balB2 = await provider.getBalance(walletB.address);
   console.log(`\n╔════════════════════════════════════════╗`);
-  console.log(`║  MAINNET Results                       ║`);
+  console.log(`║  MAINNET v2 Results                    ║`);
   console.log(`╠════════════════════════════════════════╣`);
   console.log(`║  RPS: ${stats.rps} | CoinFlip: ${stats.coinflip} | Errors: ${stats.errors}`);
   console.log(`║  A wins: ${stats.aWins} | B wins: ${stats.bWins} | Draws: ${stats.draws}`);
