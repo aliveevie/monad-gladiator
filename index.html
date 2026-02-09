@@ -96,6 +96,7 @@ tr:hover{background:rgba(123,47,247,0.05)}
   <h1>🏛️ MonadGladiator ⚔️</h1>
   <p class="subtitle">AI Gaming Arena on Monad</p>
   <p class="tagline">"Autonomous agents compete in on-chain games with real MON token wagers"</p>
+  <p style="margin-bottom:16px"><a href="https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777" target="_blank" style="background:linear-gradient(135deg,#c9a227,#f0d060);color:#000;padding:8px 20px;border-radius:20px;font-weight:bold;font-size:14px;display:inline-block">🪙 $GLAD Token on nad.fun</a></p>
   <button class="btn-connect" id="connectBtn" onclick="connectWallet()">🦊 Connect MetaMask</button>
   <div class="connected" id="walletInfo" style="display:none"></div>
 </div>
@@ -103,10 +104,11 @@ tr:hover{background:rgba(123,47,247,0.05)}
 <div class="container">
   <div class="nav">
     <button class="active" onclick="showSection('dashboard',this)">📊 Dashboard</button>
-    <button onclick="showSection('rps',this)">✊ Rock Paper Scissors</button>
+    <button onclick="showSection('rps',this)">✊ RPS</button>
+    <button onclick="showSection('coinflip',this)">🪙 CoinFlip</button>
     <button onclick="showSection('battleship',this)">🚢 Battleship</button>
     <button onclick="showSection('leaderboard',this)">🏆 Leaderboard</button>
-    <button onclick="showSection('history',this)">📜 Match History</button>
+    <button onclick="showSection('history',this)">📜 History</button>
   </div>
 
   <!-- Dashboard -->
@@ -138,12 +140,27 @@ tr:hover{background:rgba(123,47,247,0.05)}
         </div>
       </div>
       <div class="card">
+        <h2>🪙 $GLAD Token</h2>
+        <div class="stat-row"><span class="stat-label">Token</span><span class="stat-value gold">$GLAD</span></div>
+        <div class="stat-row"><span class="stat-label">Platform</span><span class="stat-value"><a href="https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777" target="_blank">nad.fun</a></span></div>
+        <div class="stat-row"><span class="stat-label">Your GLAD</span><span class="stat-value" id="s-glad">—</span></div>
+        <div style="font-size:12px;color:var(--dim);margin-top:12px;line-height:1.6">
+          <strong style="color:var(--accent)">Token Utility:</strong><br>
+          • Hold GLAD → reduced arena fees (2.5% → 1%)<br>
+          • Stake GLAD → earn share of arena fee revenue<br>
+          • GLAD rewards for match winners<br>
+          • Governance over game parameters
+        </div>
+        <a href="https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777" target="_blank" style="display:block;text-align:center;margin-top:12px;background:linear-gradient(135deg,var(--accent),#f0d060);color:#000;padding:10px;border-radius:8px;font-weight:bold;font-size:14px">Buy $GLAD on nad.fun →</a>
+      </div>
+      <div class="card">
         <h2>🧠 Agent Strategy</h2>
         <p style="color:var(--dim);font-size:13px;line-height:1.6">
           MonadGladiator uses adaptive AI strategies:<br><br>
           <strong style="color:var(--accent)">RPS:</strong> Frequency analysis → counter-strategy → meta-game reasoning (up to level-2)<br><br>
-          <strong style="color:var(--accent)">Battleship:</strong> Hunt & Target with checkerboard pattern (50-shot guarantee)<br><br>
-          <strong style="color:var(--accent)">Bankroll:</strong> Kelly Criterion position sizing with stop-loss protection
+          <strong style="color:var(--accent)">CoinFlip:</strong> Provably fair dual-secret commit-reveal<br><br>
+          <strong style="color:var(--accent)">Battleship:</strong> Hunt & Target with checkerboard pattern<br><br>
+          <strong style="color:var(--accent)">Bankroll:</strong> Kelly Criterion position sizing with stop-loss
         </p>
       </div>
     </div>
@@ -181,6 +198,36 @@ tr:hover{background:rgba(123,47,247,0.05)}
           <button class="btn-success" onclick="revealRPS()">👁️ Reveal Choice</button>
         </div>
         <div id="rps-play-status"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CoinFlip Section -->
+  <div class="section" id="sec-coinflip">
+    <div class="grid">
+      <div class="card">
+        <h2>🪙 Create CoinFlip</h2>
+        <p style="color:var(--dim);font-size:13px;margin-bottom:12px">Provably fair coin flip with dual-secret commit-reveal. Both players commit secrets, combined hash determines winner.</p>
+        <label style="color:var(--dim);font-size:12px">Wager Amount (MON)</label>
+        <input type="number" id="cf-wager" placeholder="0.01" step="0.001" min="0.001" style="margin:8px 0">
+        <button class="btn-primary" onclick="createCoinFlip()" style="width:100%">🪙 Create Flip</button>
+        <div id="cf-create-status"></div>
+      </div>
+      <div class="card">
+        <h2>🎯 Join CoinFlip</h2>
+        <p style="color:var(--dim);font-size:13px;margin-bottom:12px">Join an open flip. Match the wager to participate.</p>
+        <label style="color:var(--dim);font-size:12px">Flip ID</label>
+        <input type="number" id="cf-join-id" placeholder="1" style="margin:8px 0">
+        <button class="btn-success" onclick="joinCoinFlip()" style="width:100%">🤝 Join Flip</button>
+        <div id="cf-join-status"></div>
+      </div>
+      <div class="card">
+        <h2>🔓 Reveal Secret</h2>
+        <p style="color:var(--dim);font-size:13px;margin-bottom:12px">After both players join, reveal your secret to determine the winner.</p>
+        <label style="color:var(--dim);font-size:12px">Flip ID</label>
+        <input type="number" id="cf-reveal-id" placeholder="1" style="margin:8px 0">
+        <button class="btn-primary" onclick="revealCoinFlip()" style="width:100%">🔓 Reveal</button>
+        <div id="cf-reveal-status"></div>
       </div>
     </div>
   </div>
@@ -237,7 +284,7 @@ tr:hover{background:rgba(123,47,247,0.05)}
 
 <div class="footer">
   <p>🏛️⚔️ MonadGladiator — Built for Moltiverse Hackathon 2026</p>
-  <p style="margin-top:8px">Deployed on <a href="https://monad.xyz" target="_blank">Monad</a> Mainnet (Chain ID 143)</p>
+  <p style="margin-top:8px">Deployed on <a href="https://monad.xyz" target="_blank">Monad</a> Mainnet (Chain ID 143) | <a href="https://nad.fun/tokens/0xFB1e91a01a1357B438cCd6F915F464bf8e977777" target="_blank">$GLAD on nad.fun</a></p>
 </div>
 
 <script>
@@ -249,7 +296,8 @@ const ADDR = {
   rps: "0x97f5C4A90f182d15bdD70d656fcea575Db736571",
   battleship: "0xdC90E2E5362ffEf87A7c96734824966df72Aa495",
   coinflip: "0x3816C958cD6BfA65f538150922E26AEE9287A825",
-  tournament: "0x25928a19A69D2D340D25537F11aB23e6d0Cb32A1"
+  tournament: "0x25928a19A69D2D340D25537F11aB23e6d0Cb32A1",
+  glad: "0xFB1e91a01a1357B438cCd6F915F464bf8e977777"
 };
 
 // Minimal ABIs
@@ -279,10 +327,24 @@ const BS_ABI = [
   "function getGameInfo(uint256) view returns (address playerA, address playerB, uint256 wager, uint8 phase, uint8 hitsOnA, uint8 hitsOnB, address currentTurn, bool settled)"
 ];
 
+const CF_ABI = [
+  "function createFlip(bytes32 commitment) payable returns (uint256)",
+  "function joinFlip(uint256 flipId, bytes32 commitment) payable",
+  "function revealSecret(uint256 flipId, bytes32 secret)",
+  "function flips(uint256) view returns (address playerA, address playerB, uint256 wager, bytes32 commitA, bytes32 commitB, bytes32 secretA, bytes32 secretB, bool revealedA, bool revealedB, bool resultHeads, address winner, bool settled, uint8 phase, uint256 lastAction)"
+];
+
+const ERC20_ABI = [
+  "function balanceOf(address) view returns (uint256)",
+  "function symbol() view returns (string)",
+  "function decimals() view returns (uint8)"
+];
+
 let provider, signer, userAddr;
-let registry, rpsContract, bsContract;
+let registry, rpsContract, bsContract, cfContract, gladToken;
 let selectedRPS = 0;
 let rpsSalts = {};
+let cfSecrets = {}; // Store secrets for coinflip reveals
 
 // ═══════════════════════ WALLET ═══════════════════════
 function getMetaMaskProvider() {
@@ -315,7 +377,7 @@ async function connectWallet() {
       } catch(e) {
         await eth.request({method:"wallet_addEthereumChain",params:[{
           chainId: chainHex,
-          chainName: "Monad Testnet",
+          chainName: "Monad",
           rpcUrls: [RPC],
           nativeCurrency: {name:"MON",symbol:"MON",decimals:18},
           blockExplorerUrls: ["https://monadexplorer.com"]
@@ -328,6 +390,12 @@ async function connectWallet() {
     registry = new ethers.Contract(ADDR.registry, REGISTRY_ABI, signer);
     rpsContract = new ethers.Contract(ADDR.rps, RPS_ABI, signer);
     bsContract = new ethers.Contract(ADDR.battleship, BS_ABI, signer);
+    cfContract = new ethers.Contract(ADDR.coinflip, CF_ABI, signer);
+    gladToken = new ethers.Contract(ADDR.glad, ERC20_ABI, signer);
+    try {
+      const gladBal = await gladToken.balanceOf(userAddr);
+      document.getElementById("s-glad").textContent = parseFloat(ethers.formatEther(gladBal)).toFixed(2) + " GLAD";
+    } catch(e) { document.getElementById("s-glad").textContent = "0 GLAD"; }
     document.getElementById("connectBtn").innerHTML = "🦊 Connected";
     document.getElementById("connectBtn").style.display = "none";
     document.getElementById("walletInfo").style.display = "block";
@@ -567,6 +635,53 @@ async function loadHistory() {
     }
     body.innerHTML = html;
   } catch(e) { console.error(e); }
+}
+
+// ═══════════════════════ COINFLIP ═══════════════════════
+async function createCoinFlip() {
+  try {
+    const wager = document.getElementById("cf-wager").value || "0.01";
+    setStatus("cf-create-status", "info", "Generating secret & creating flip...");
+    const secret = ethers.randomBytes(32);
+    const commitment = ethers.keccak256(secret);
+    const tx = await cfContract.createFlip(commitment, { value: ethers.parseEther(wager), gasLimit: 500000 });
+    setStatus("cf-create-status", "info", "TX sent: " + tx.hash.slice(0,16) + "...");
+    const r = await tx.wait();
+    let flipId = "?";
+    for (const log of r.logs) { if (log.topics.length > 1) { flipId = parseInt(log.topics[1], 16); break; } }
+    cfSecrets[flipId] = ethers.hexlify(secret);
+    setStatus("cf-create-status", "success", "✅ Flip #" + flipId + " created! Wager: " + wager + " MON. Save your Flip ID to reveal later.");
+  } catch(e) { setStatus("cf-create-status", "error", "❌ " + e.message.slice(0, 80)); }
+}
+
+async function joinCoinFlip() {
+  try {
+    const flipId = document.getElementById("cf-join-id").value;
+    if (!flipId) return setStatus("cf-join-status", "error", "Enter a Flip ID");
+    setStatus("cf-join-status", "info", "Getting flip info...");
+    const flip = await cfContract.flips(flipId);
+    const wager = flip.wager;
+    const secret = ethers.randomBytes(32);
+    const commitment = ethers.keccak256(secret);
+    cfSecrets[flipId] = ethers.hexlify(secret);
+    setStatus("cf-join-status", "info", "Joining flip #" + flipId + " (wager: " + ethers.formatEther(wager) + " MON)...");
+    const tx = await cfContract.joinFlip(flipId, commitment, { value: wager, gasLimit: 500000 });
+    await tx.wait();
+    setStatus("cf-join-status", "success", "✅ Joined flip #" + flipId + "! Now both players must reveal.");
+  } catch(e) { setStatus("cf-join-status", "error", "❌ " + e.message.slice(0, 80)); }
+}
+
+async function revealCoinFlip() {
+  try {
+    const flipId = document.getElementById("cf-reveal-id").value;
+    if (!flipId) return setStatus("cf-reveal-status", "error", "Enter a Flip ID");
+    const secret = cfSecrets[flipId];
+    if (!secret) return setStatus("cf-reveal-status", "error", "No secret found for flip #" + flipId + ". You must create/join from this session.");
+    setStatus("cf-reveal-status", "info", "Revealing secret...");
+    const tx = await cfContract.revealSecret(flipId, secret, { gasLimit: 800000 });
+    await tx.wait();
+    setStatus("cf-reveal-status", "success", "✅ Secret revealed for flip #" + flipId + "! If both revealed, winner gets the pot.");
+  } catch(e) { setStatus("cf-reveal-status", "error", "❌ " + e.message.slice(0, 80)); }
 }
 
 // ═══════════════════════ UTIL ═══════════════════════
